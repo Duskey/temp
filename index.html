@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <title>Wait</title>
+        <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+        <link rel="stylesheet" type="text/css" href="css/demo.css" />
+        <link rel="stylesheet" type="text/css" href="css/component.css" />
+      <style>
+                       footer{
+     font-size:100%;
+     text-align: center;
+     font-family: 'Lato', sans-serif;
+     color:black;
+}
+ p {
+  text-align: center;
+  font-size: 40px;
+  margin-top: 150px;
+  color:white;
+ font-family: 'Mali', cursive;
+}
+a{
+  text-align: center;
+  font-size: 30px;
+  margin-top: 0px;
+  color:hotpink	;
+  font-family: "Times New Roman", serif;
+}
+  
+@media only screen and (max-width: 360px) {
+
+p
+{
+    font-size: 20px; 
+    color:indigo;
+}
+}
+
+
+      </style>
+	</head>
+	<body>
+              <audio controls autoplay loop hidden>
+  <source src="index.mp3" type="audio/ogg">
+  <embed src="index.mp3" autostart="true" loop="true" hidden> 
+</audio>
+		<div class="container demo-2">
+			<div class="content">
+                <div id="large-header" class="large-header">
+                        <p id="demo"></p>
+                        <p id="a"></p>
+                        
+                    <canvas id="demo-canvas"></canvas>
+                </div>
+                        </div>
+               
+            </div>
+            <script>
+                    var countDownDate = new Date("july 22, 2019").getTime();
+                    
+                    var x = setInterval(function() {
+                    
+                       
+                        var now = new Date().getTime();
+                        
+                        // Find the distance between now and the count down date
+                        var distance = countDownDate - now;
+                        
+                        // Time calculations for days, hours, minutes and seconds
+                        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                        
+                        // Output the result in an element with id="demo"
+                        document.getElementById("demo").innerHTML = "Somthing will change in : "+days + "d " + hours + "h "
+                        + minutes + "m " + seconds + "s ";
+                        
+                        // If the count down is over, write some text 
+                       if (distance < 0) {
+                        
+                            clearInterval(x);
+                            document.getElementById("demo").innerHTML = "The first aniversary";
+                        var a = document.createElement('a');
+                        var linkText = document.createTextNode("Click here to proceed");
+                        a.appendChild(linkText);
+                        a.title = "my title text";
+                        a.href = "link.html";
+                        document.body.appendChild(a);
+                        
+                        
+                    
+                        }
+                    }, 1000);
+                    </script>
+        <script>
+
+            (function() {
+                var lastTime = 0;
+                var vendors = ['ms', 'moz', 'webkit', 'o'];
+                for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+                    window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+                    window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame']
+                        || window[vendors[x]+'CancelRequestAnimationFrame'];
+                }
+            
+                if (!window.requestAnimationFrame)
+                    window.requestAnimationFrame = function(callback, element) {
+                        var currTime = new Date().getTime();
+                        var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                        var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+                            timeToCall);
+                        lastTime = currTime + timeToCall;
+                        return id;
+                    };
+            
+                if (!window.cancelAnimationFrame)
+                    window.cancelAnimationFrame = function(id) {
+                        clearTimeout(id);
+                    };
+            }());
+                </script>
+                    <script>
+                        (function() {
+            
+                var width, height, largeHeader, canvas, ctx, circles, target, animateHeader = true;
+            
+                // Main
+                initHeader();
+                addListeners();
+            
+                function initHeader() {
+                    width = window.innerWidth;
+                    height = window.innerHeight;
+                    target = {x: 0, y: height};
+            
+                    largeHeader = document.getElementById('large-header');
+                    largeHeader.style.height = height+'px';
+            
+                    canvas = document.getElementById('demo-canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx = canvas.getContext('2d');
+            
+                    // create particles
+                    circles = [];
+                    for(var x = 0; x < width*0.5; x++) {
+                        var c = new Circle();
+                        circles.push(c);
+                    }
+                    animate();
+                }
+            
+                // Event handling
+                function addListeners() {
+                    window.addEventListener('scroll', scrollCheck);
+                    window.addEventListener('resize', resize);
+                }
+            
+                function scrollCheck() {
+                    if(document.body.scrollTop > height) animateHeader = false;
+                    else animateHeader = true;
+                }
+            
+                function resize() {
+                    width = window.innerWidth;
+                    height = window.innerHeight;
+                    largeHeader.style.height = height+'px';
+                    canvas.width = width;
+                    canvas.height = height;
+                }
+            
+                function animate() {
+                    if(animateHeader) {
+                        ctx.clearRect(0,0,width,height);
+                        for(var i in circles) {
+                            circles[i].draw();
+                        }
+                    }
+                    requestAnimationFrame(animate);
+                }
+            
+                // Canvas manipulation
+                function Circle() {
+                    var _this = this;
+            
+                    // constructor
+                    (function() {
+                        _this.pos = {};
+                        init();
+                        console.log(_this);
+                    })();
+            
+                    function init() {
+                        _this.pos.x = Math.random()*width;
+                        _this.pos.y = height+Math.random()*100;
+                        _this.alpha = 0.3+Math.random()*0.3;
+                        _this.scale = 0.4+Math.random()*0.3;
+                        _this.velocity = Math.random();
+                    }
+            
+                    this.draw = function() {
+                        if(_this.alpha <= 0) {
+                            init();
+                        }
+                        _this.pos.y -= _this.velocity;
+                        _this.alpha -= 0.0005;
+                        ctx.beginPath();
+                        ctx.arc(_this.pos.x, _this.pos.y, _this.scale*10, 0, 2 * Math.PI, false);
+                        ctx.fillStyle = 'rgba(255,260,255,'+ _this.alpha+')';
+                        ctx.fill();
+                    };
+                }
+            
+            })();
+                            </script>  
+                  <footer class="footer">© 2019 Copyright: Duskey</footer>
+	</body>
+        
+</html>
